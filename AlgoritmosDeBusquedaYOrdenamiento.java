@@ -2,19 +2,12 @@ public class AlgoritmosDeBusquedaYOrdenamiento {
 
     public static void main(String[] args){
 
-        System.out.println("Probando");
-        System.out.println(sumar(5,10));
+        int[] vectorOrdenadoSinRepetidos = {-2,-1,3,7,9,15};
+        int numBuscado = 9;
 
-
-
-       int[] vectorOrdenadoSinRepetidos = {-2,-1,3,7,9,15};
-
-
-       
-    for(int i=0; i<vectorOrdenadoSinRepetidos.length; i++){
-        System.out.println(vectorOrdenadoSinRepetidos[i]);
-    }
-
+    
+        int res = busquedaBinaria(vectorOrdenadoSinRepetidos, numBuscado); // busqueda binaria O(log n)
+        System.out.println(res);
     }
 
 
@@ -22,6 +15,31 @@ public class AlgoritmosDeBusquedaYOrdenamiento {
         return(x+y);
     }
 
+    
+
+
+    public static int busquedaBinaria(int [] items, int numeroBuscado) {
+        int result = -1;
+        int limiteInferior = 0;
+        int limiteSuperior = items.length - 1;
+        int indice;
+                     
+        while (limiteInferior <= limiteSuperior && result == -1) {
+            indice = (limiteInferior + limiteSuperior) / 2;
+                 
+            if (items[indice] == numeroBuscado) {
+                System.out.println("Encontrado");
+                result = indice;
+            }else if (numeroBuscado > items[indice]) {
+                limiteInferior = indice + 1;
+            }else if (numeroBuscado < items[indice]) {
+                limiteSuperior = indice - 1;
+            }
+        }
+             
+        return result;
+    }    
+       
 
     
-}
+} 
