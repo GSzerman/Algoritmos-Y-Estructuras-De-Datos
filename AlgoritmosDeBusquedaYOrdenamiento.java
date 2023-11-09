@@ -18,26 +18,33 @@ public class AlgoritmosDeBusquedaYOrdenamiento {
     
 
 
-    public static int busquedaBinaria(int [] items, int numeroBuscado) {
-        int result = -1;
+    public static int busquedaBinaria(int [] array, int numeroBuscado) {
+        int result = -1; // El indice resultado comienza siendo -1
         int limiteInferior = 0;
-        int limiteSuperior = items.length - 1;
+        int limiteSuperior = array.length - 1;
         int indice;
                      
-        while (limiteInferior <= limiteSuperior && result == -1) {
-            indice = (limiteInferior + limiteSuperior) / 2;
+        while (limiteInferior <= limiteSuperior && result == -1) { // El while termina cuando los limites se cruzan
+            
+            indice = (limiteInferior + limiteSuperior) / 2; // En cada vuelta, el indice es (LI+LS)/2
                  
-            if (items[indice] == numeroBuscado) {
+            if (array[indice] == numeroBuscado) {    // Chequeo si numeroBuscado = array[indice] 
                 System.out.println("Encontrado");
                 result = indice;
-            }else if (numeroBuscado > items[indice]) {
-                limiteInferior = indice + 1;
-            }else if (numeroBuscado < items[indice]) {
-                limiteSuperior = indice - 1;
+            }
+
+            
+            if (numeroBuscado > array[indice]) { // Si numeroBuscado > array[indice]
+                limiteInferior = indice + 1;     // Muevo el piso hacia la derecha 1 unidad
+            }
+            
+            if (numeroBuscado < array[indice]) { // Si numeroBuscado < array[indice]
+                limiteSuperior = indice - 1;     // Muevo el techo hacia la izquierda 1 unidad
             }
         }
              
-        return result;
+        return result; // Cuando finalice el while, o retorno el -1 o retorno el indice
+
     }    
        
 
