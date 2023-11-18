@@ -1,4 +1,7 @@
- #Ejercicio 4 - Planta industrial:
+-------------------------------------------------------------------------------------------------------------
+
+
+#Ejercicio 4 - Planta industrial:
  # Considere la siguiente  especificación de una relación uno/muchos entre alarmas y sensores de una planta industrial 
  # Un sensor puede estar asociado a muchas alarmas, y una alarma puede tener muchos sensores asociados
 
@@ -79,15 +82,88 @@ predAbs(pi: PlantaImpl, p: Planta){         # Recibe el módulo y el TAD . Tiene
  &&  forall s : Sensor :: (s in pi.sensores =>L (forall a: Alarma :: (a in pi.Sensores[s] =>L <s,a> in p.sensores ) ) )
 
 }
+-------------------------------------------------------------------------------------------------------------
+Ejercicio 5 Planilla de actividades (Está la resolución en pdf en clase de rep y abs)
+
+Un consultor independiente desea mantener una planilla con las actividades que realiza cada mes
+en cada uno de los proyectos en los que participa. 
+La planilla que desea mantener se describe con el siguiente TAD.
+
+TAD Planilla { 
+ obs actividades: conj<Actividad> 
+ obs proyectoDe: dict<Actividad, Proyecto> 
+ obs mesDe: dict<Actividad, int> 
+ obs horaDe: dict<Actividad, int>
+
+proc nuevaPlanilla(): Planilla
+proc totProyxMes(in p: Planilla, in m: Mes, in r: Proyecto): int
+proc agregar( inout p: Planilla, in a: Actividad, in r: Proyecto, in mes: int, in horas: int )
+}
+Actividad es string Proyecto es string
+
+Se propone la siguiente estructura para representar dicho TAD
+
+modulo PlanillaImpl implementa Planilla { 
+ var detalle: Diccionario<  
+                          Actividad, struct<proy: Proyecto, mes: int, horas: int>   -- Ejemplo: { "Actividad1" : <proyecto="Proy1", mes = 12, horas = 15>,
+                          >                                                                       "Actividad2" : <proyecto="Proy1", mes = 08, horas = 09> }
+var horasPorMes: Diccionario<proyecto, Array<int>>                                  -- Ejemplo: { "Proy2":[3,5,7,9,12,07,09,11,09,11,7,15],  # La posicion i del array, representa la suma de horas de todas las actividades de ese proyecto dentro del mismo mes
+                                                                                                  "Proy1":[3,5,7,9,12,07,09,11,09,11,7,15], }                    
+}
+
+Se pide:
+a) Escribir formalmente y en castellano el invariante de representacion.
+b) Escribir la funcion de abstraccion.
+
+
+Invariante de representación:
+
+El numero de mes de cada actividad tiene que ser un entero entre 1 y 12 (Mejor entre 0 y 11 para que coincida con los indices del array de horasPorMes
+La longitud de los array de horasPorMes debe ser 12 (Un indice para cada mes)
+Todos los proyectos de detalle.proyecto tienen que estar dentro de horasPormes y viceversa
+horasPormes[proyecto][i] tiene que ser igual a la suma de todas las detalle[proyecto].horas donde detalle[proyecto].mes = i
+
+invRep(p : PlanillaImpl){
+forall a : Actividad :: ( a in p.detalle =>L (0<= p.detalle[a].mes < 12))      &&
+
+forall pro: Proyecto :: ( pro in p.horasPorMes =>L p.horasPorMes[pro].length == 12
+
+forall pro: Proyecto, m: int :: (pro in p.horasPorMes =>L p.horasPorMes[pro][m] 
+
+forall a: Actividad :: ( a in p.detalle =>L p.detalle[a].proyecto in p.horasPorMes )  &&
+forall pro: Proyecto :: ( pro in p.horasPorMes =>L ( exists a: Actividad :: p.detalle[a].Proyecto == pro ) ) &&
+
+
+forall pro: Proyecto, m:int, a: Actividad :: (pro in p.horasPorMes =>L ( p.horasPorMes[pro] ==          # Ver si está correcto que m:int y a:Actividad esten ahi
+                                                    sum (if a in p.detalle &&L p.detalle[a].proy== pro && p.detalle[a].mes == m 
+                                                         then p.detalle[a].horas
+                                                         else 0 fi ))
+
+}
+
+Predicado de abstracción:
+Establece la equivalencia entre un TAD y su implementación
+
+predAbs(pi: PlanillaImpl, p: Planilla){
+    forall a: Actividad :: (
+    a in pi.detalle <==> a in p.actividades        &&L
+    pi.detalle[a].proy == p.proyectoDe[a]          &&
+    pi.detalle[a].mes == p.mesDe[a]                &&
+    pi.detalle[a].horas == p.horaDe[a]
+     
+}
+
+
+
+Actividad es string Proyecto es string
 
 
 
 
+-------------------------------------------------------------------------------------------------------------
+Ejercicio 6 Alta fiesta
 
 
-
-
-###### Ejercicio 6 Alta fiesta
 
 TAD AltaFiesta {
 obs invitados: conj<Persona>
@@ -158,6 +234,14 @@ predAbs( afi: AltaFiestaImpl, af: AltaFiesta){
  forall g: Grupo :: (g in afi.regaloDeGrupo =>L forall p: Persona :: ( p in afi.grupoDe[g] =>L p in af.regaloDe && af.regaloDe[p] == afi.regaloDeGrupo[p]
 
 }
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
