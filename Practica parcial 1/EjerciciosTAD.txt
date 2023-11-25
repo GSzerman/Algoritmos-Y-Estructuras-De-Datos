@@ -1,0 +1,20 @@
+// Ejercicio 2 - Parcial  10-10-23
+
+Queremos modelar el funcionamiento de un centro ecuestre. El centro puede comprar caballos de diferentes razas. 
+Al comprar un caballo, el vendedor nos indica cuantos "puntos de vigor" posee el caballo.
+
+Es posible aumentar el vigor de los caballos entrenandolos. Cada entrenamiento dura un cierto tiempo y el caballo
+gana un punto de vigor por cada hora entrenada.
+
+Luego, a los caballos se los hace competir en el Hipódromode Palermo. En cada competencia el caballo puede ganar
+o perder. Si gana, aumenta 10 puntos de vigor. Si pierde,por la deshonra de la derrota, pierde 10 puntos.
+
+Se quiere conocer en todo momento cuantos puntos de vigor tiene cada caballo y cual es el mejor caballo de cada raza,
+siendo el mejor aquel que tiene mas vigor. Si en alguna raza hay más de un caballo con el vigor maximo, alcanza con
+conocer a cualquiera de ellos
+
+
+a) Indique las operaciones (procs) del TAD con todos sus parámetros
+
+
+proc comprarCaballo
