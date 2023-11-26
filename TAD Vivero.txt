@@ -1,0 +1,119 @@
+Consigna: 
+
+Queremos modelar el funcionamiento de un vivero. El vivero arranca su actividad sin nunguna planta y con un monto inicial de dinero.
+Las plantas las compramos en un mayorista que nos vende la cantidad que deseemos pero solamente de a una especie por vez.
+Como vivimos en un país con inflación, cada vez que vamos a comprar tenemos un precio diferente para la misma planta.
+
+Para simplificar el problema, asumimos que las plantas las vendemos de a un ejemplar
+(cada venta involucra un solo ejemplar de una sola especie)
+
+Por supuesto que para poder hacer una venta tenemos que tener de STOCK de esa planta y tenemos que haberle fijado
+un precio previamente. 
+(NOTA: Previamente significa Antes del proc venderPlanta)
+
+"Además, se quiere saber en todo momento cual es el balance de caja, es decir, el dinero que tiene disponible el vivero." 
+(NOTA: verBalance debe ser un proc . Cuando dice saber en todo momento, )
+
+1.[10pts] Indique las operaciones (procs) del TAD con todos sus parámetros
+
+2.[15pts] Describa el TAD de forma completa, indicando sus observadores, los requiere y asegura de las operaciones.
+Puede agregar los predicados y funciones auxiliares que necesite, con su correspondiente definición.
+
+3[5pts]. ¿Qué cambiaría si supiéramos a priori que cada vez que compramos en el mayorista pagamos exactamente
+el 10% mas que la vez anterior? Describa los cambios en palabras
+
+
+
+
+TAD Vivero
+
+
+
+1)
+proc nuevoVivero(in balance: int) : Vivero
+proc comprarPlanta (inout v: Vivero, in e: Especie, in cant: int, in pc: int, in pv: int)
+proc venderPlanta (inout v: Vivero, in e: Especie)     [El enunciado pide vender de a 1 planta nomas][Tambien pide definir previo al proc el precio de venta]
+proc verBalance (inout v: Vivero)
+proc cambiarPrecioVenta (inout v: Vivero, in e:Especie, in pv: int)      [Esto no lo pedia tan explicitamente, pero deriva de la necesidad de definir previamente el precio]
+
+2)
+
+
+TAD Vivero{
+    Especie es una string con el nombre de la especie
+
+    obs preciosCompra : Dict<Especie, int>
+    obs preciosVenta : Dict<Especie,int>
+    obs stock : Dict<Especie,int>
+    obs balance : int
+
+
+    proc nuevoVivero(in bal:int): Vivero
+        requiere { bal > 0 }
+        asegura { res.preciosCompra == {} }  // Tengo que setear todos los observadores en cada proc
+        asegura { res.preciosVenta == {} }
+        asegura { res.stock == {} }
+        asegura { res.balance == bal }
+
+
+    proc cambiarPrecioVenta(inout v:Vivero, in e:Especie, in pv:int)
+        requiere{ pv>0 }
+        asegura{ v.preciosCompra == old(v).preciosCompra}
+        asegura{ setKey(v.preciosVenta, e, pv) }
+        asegura{ v.stock == old(v).stock }
+        asegura{ v.balance == old(v).balance }
+
+
+    proc comprarPlanta(inout v:Vivero, in e:Especie, in cant:int, in pc:int, in pv:int)
+        requiere { v.balance >= pc * cant }
+        requiere { cant >= 1 }
+        requiere { pc >= 1 }
+        asegura { setKey(v.preciosCompra, e, pc) }
+        asegura { setKey(v.preciosVenta, e, pv )  }   // Chequear en que momento establezco el precio de venta original
+        asegura { setKey(v.stock, e, old(v).stock[e] + cant)  }
+        asegura { v.balance == old(v).balance - pc * cant } 
+
+
+    proc venderPlanta(inout v:Vivero, in e:Especie)
+        requiere { e in v.stock }
+        requiere { v.stock[e] >= 1 }
+        asegura { v.precioCompra == old(v).precioCompra }
+        asegura { v.precioVenta == old(v).precioVenta }
+        asegura { setKey(v.stock, e , old(v).stock[e] - 1) }
+        asegura { v.balance == old(v).balance + old(v).precioVenta[e] }
+
+
+
+    proc verBalance(in v:Vivero) : int
+        requiere { }
+        asegura { res == v.balance}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nota: Ver que ejercicio con Stock habian hecho de ejemplo previamente. Anotarlo y analizarlo en detalle.
+
+
+
+
