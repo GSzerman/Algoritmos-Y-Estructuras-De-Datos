@@ -6,7 +6,7 @@ Al comprar un caballo, el vendedor nos indica cuantos "puntos de vigor" posee el
 Es posible aumentar el vigor de los caballos entrenandolos. Cada entrenamiento dura un cierto tiempo y el caballo
 gana un punto de vigor por cada hora entrenada.
 
-Luego, a los caballos se los hace competir en el Hipódromode Palermo. En cada competencia el caballo puede ganar
+Luego, a los caballos se los hace competir en el Hipódromo de Palermo. En cada competencia el caballo puede ganar
 o perder. Si gana, aumenta 10 puntos de vigor. Si pierde,por la deshonra de la derrota, pierde 10 puntos.
 
 Se quiere conocer en todo momento cuantos puntos de vigor tiene cada caballo y cual es el mejor caballo de cada raza,
@@ -17,4 +17,72 @@ conocer a cualquiera de ellos
 a) Indique las operaciones (procs) del TAD con todos sus parámetros
 
 
-proc comprarCaballo
+proc nuevoCentro(): centroEcuestre
+proc comprarCaballo(inout c: centroEcuestre, in id: idCaballo, in r: raza, in v:vigor)
+proc entrenarCaballo(inout c: centroEcuestre, in id: idCaballo, in hs: horas)
+proc competirCaballo(inout c: centroEcuestre, in id: idCaballo, bool g: ganador)
+proc verPuntosDeVigor(in c: centroEcuestre, out res: Dict<idCaballo,vigor>)
+proc verMejoresCaballos (in c: centroEcuestre, out res: Dict<Raza,idCaballo>)
+
+
+idCaballo es un int
+raza es una string
+vigor es un int
+horas es un int
+ganador es un bool (TRUE = Gano , FALSE = Perdio)
+
+
+TAD centroEcuestre {
+    obs caballos: Dict< idCaballo , <vigor , raza> >    -- No me conviene meter una tupla adentro de un dict.
+                                                        -- Mejor uso dos dict? Pero esto parece ser mas simple. Consultar
+    obs mejoresCaballos: Dict< raza , idCaballo >       -- Parece que pude salvar ese tema con setKeys. Este ejercicio como todos, es muy extenso. El tiempo en este examen es clave.
+
+
+    proc nuevoCentro(): centroEcuestre
+    requiere {}
+    asegura { res.caballos == {} }
+    asegura { res.mejoresCaballos == {} }
+
+    proc comprarCaballo(inout c: centroEcuestre, in id: idCaballo, in r: raza, in v:vigor)
+    requiere { v >= 0 && id >= 0,  }
+    requiere { !(id in c.caballos) && !(id in c.mejoresCaballos)}
+    asegura  { setKey(c.caballos, id ,<v,r>) }
+    asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
+
+
+    proc entrenarCaballo(inout c: centroEcuestre, in id: idCaballo, in hs: horas)
+    requiere { id in c.caballos }
+                ######asegura  { c.caballos[id][1] == old(c).caballos[id][1] + hs} // Esto no alcanzaria, porque puede ser que c vuelva solo con el caballo que estoy usando y elimine al resto
+    asegura  { setKey(c.caballos, id, < old(c).caballos[id][0], old(c).caballos[id][1] + hs >)} // Ahora pareciera que si
+    asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
+
+
+    proc competirCaballo(inout c: centroEcuestre, in id: idCaballo, in g: bool)
+    requiere{ id in c.caballos}
+    asegura { if (g == TRUE) then setKey(c.caballos, id, <old(c).caballos[id][0] + 10 , old(c).caballos[id][1]>) 
+              else setKey(c.caballos, id, <old(c).caballos[id][0] - 10 , old(c).caballos[id][1]>) }
+    asegura { c.mejoresCaballos == old(c).mejoresCaballos}
+
+
+    proc verPuntosDeVigor(in c: centroEcuestre, out res: Dict<idCaballo,vigor>)
+    requiere {}
+    asegura  { forall id:idCaballo, v:vigor :: id in c.caballos =>L id in res && res[id] == c[id][0]}   
+
+
+    proc verMejoresCaballos (in c: centroEcuestre, out res: Dict<Raza,idCaballo>)
+    requiere {}
+    asegura { forall id:idCaballo :: esMejorDeSuRaza(id, c) =>L c.caballos[id][1] in res && res[c.caballos[id][1]] == id}
+
+
+
+    pred esMejorDeSuRaza( id: idCaballo, c: centroEcuestre){
+        forall id': (idCaballo :: id' in c.caballos  && (c.caballos[id][1] == c.caballos[id'][1])) =>L c.caballos[id][0] >= c.caballos[id'][0]
+    }
+
+
+
+
+}
+
+
+// Pendiente: Chequear la correccion y comparar con la resolucion que está subida
