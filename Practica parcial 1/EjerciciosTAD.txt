@@ -17,11 +17,27 @@ conocer a cualquiera de ellos
 a) Indique las operaciones (procs) del TAD con todos sus parámetros
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 proc nuevoCentro(): centroEcuestre
 proc comprarCaballo(inout c: centroEcuestre, in id: idCaballo, in r: raza, in v:vigor)
 proc entrenarCaballo(inout c: centroEcuestre, in id: idCaballo, in hs: horas)
 proc competirCaballo(inout c: centroEcuestre, in id: idCaballo, bool g: ganador)
-proc verPuntosDeVigor(in c: centroEcuestre, out res: Dict<idCaballo,vigor>)
+proc verPuntosDeVigor(in c: centroEcuestre, out res: Dict<idCaballo,vigor>) // Yo acá mostré de todos los caballos, pero lo correcto es para un caballo
 proc verMejoresCaballos (in c: centroEcuestre, out res: Dict<Raza,idCaballo>)
 
 
@@ -36,53 +52,169 @@ TAD centroEcuestre {
     obs caballos: Dict< idCaballo , <vigor , raza> >    -- No me conviene meter una tupla adentro de un dict.
                                                         -- Mejor uso dos dict? Pero esto parece ser mas simple. Consultar
     obs mejoresCaballos: Dict< raza , idCaballo >       -- Parece que pude salvar ese tema con setKeys. Este ejercicio como todos, es muy extenso. El tiempo en este examen es clave.
-
+                                                        -- Conclusión: No me convenia meter una tupla dentro de un dict.
+                                                        -- Me conviene hacer un conj<Caballos> y todos dict sencillos
 
     proc nuevoCentro(): centroEcuestre
-    requiere {}
-    asegura { res.caballos == {} }
-    asegura { res.mejoresCaballos == {} }
+        requiere {}
+        asegura { res.caballos == {} }
+        asegura { res.mejoresCaballos == {} }
 
     proc comprarCaballo(inout c: centroEcuestre, in id: idCaballo, in r: raza, in v:vigor)
-    requiere { v >= 0 && id >= 0,  }
-    requiere { !(id in c.caballos) && !(id in c.mejoresCaballos)}
-    asegura  { setKey(c.caballos, id ,<v,r>) }
-    asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
+        requiere { v >= 0 && id >= 0,  }
+        requiere { !(id in c.caballos) && !(id in c.mejoresCaballos)}
+        asegura  { setKey(c.caballos, id ,<v,r>) }
+        asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
 
 
     proc entrenarCaballo(inout c: centroEcuestre, in id: idCaballo, in hs: horas)
-    requiere { id in c.caballos }
-                ######asegura  { c.caballos[id][1] == old(c).caballos[id][1] + hs} // Esto no alcanzaria, porque puede ser que c vuelva solo con el caballo que estoy usando y elimine al resto
-    asegura  { setKey(c.caballos, id, < old(c).caballos[id][0], old(c).caballos[id][1] + hs >)} // Ahora pareciera que si
-    asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
+        requiere { id in c.caballos }
+                    ######asegura  { c.caballos[id][1] == old(c).caballos[id][1] + hs} // Esto no alcanzaria, porque puede ser que c vuelva solo con el caballo que estoy usando y elimine al resto
+        asegura  { setKey(c.caballos, id, < old(c).caballos[id][0], old(c).caballos[id][1] + hs >)} // Ahora pareciera que si
+        asegura  { c.mejoresCaballos == old(c).mejoresCaballos}
 
 
     proc competirCaballo(inout c: centroEcuestre, in id: idCaballo, in g: bool)
-    requiere{ id in c.caballos}
-    asegura { if (g == TRUE) then setKey(c.caballos, id, <old(c).caballos[id][0] + 10 , old(c).caballos[id][1]>) 
-              else setKey(c.caballos, id, <old(c).caballos[id][0] - 10 , old(c).caballos[id][1]>) }
-    asegura { c.mejoresCaballos == old(c).mejoresCaballos}
+        requiere{ id in c.caballos}
+        asegura { if (g == TRUE) then setKey(c.caballos, id, <old(c).caballos[id][0] + 10 , old(c).caballos[id][1]>) 
+                else setKey(c.caballos, id, <old(c).caballos[id][0] - 10 , old(c).caballos[id][1]>) }
+        asegura { c.mejoresCaballos == old(c).mejoresCaballos}
 
 
     proc verPuntosDeVigor(in c: centroEcuestre, out res: Dict<idCaballo,vigor>)
-    requiere {}
-    asegura  { forall id:idCaballo, v:vigor :: id in c.caballos =>L id in res && res[id] == c[id][0]}   
+        requiere {}
+        asegura  { forall id:idCaballo, v:vigor :: id in c.caballos =>L id in res && res[id] == c[id][0]}   
 
 
-    proc verMejoresCaballos (in c: centroEcuestre, out res: Dict<Raza,idCaballo>)
-    requiere {}
-    asegura { forall id:idCaballo :: esMejorDeSuRaza(id, c) =>L c.caballos[id][1] in res && res[c.caballos[id][1]] == id}
+    proc verMejoresCaballos (in c: centroEcuestre, out res: Dict<Raza,idCaballo>) // Ver si hace falta mostrar todos los mejores o recibir una raza y mostrar el mejor de esa raza
+        requiere {}
+        asegura { forall id:idCaballo :: esMejorDeSuRaza(id, c) =>L c.caballos[id][1] in res && res[c.caballos[id][1]] == id}
 
 
 
     pred esMejorDeSuRaza( id: idCaballo, c: centroEcuestre){
-        forall id': (idCaballo :: id' in c.caballos  && (c.caballos[id][1] == c.caballos[id'][1])) =>L c.caballos[id][0] >= c.caballos[id'][0]
-    }
-
-
-
+            forall id': (idCaballo :: id' in c.caballos  && (c.caballos[id][1] == c.caballos[id'][1])) =>L c.caballos[id][0] >= c.caballos[id'][0]
+        }
 
 }
 
 
 // Pendiente: Chequear la correccion y comparar con la resolucion que está subida
+// Correcciones: Estoy utilizando mal el setKey() porque le estoy pasando como argumento el c nuevo
+//               Lo correcto seria pasarle a setKey el old(c), e igualar lo que devuelve al nuevo c.caballos
+//               El setKey() es como el setAt() asi que lo tomo como una función que devuelve al elemento modificado
+//               Podría haber usado algo mucho mas simple. Un conjunto con los caballos, y despues dicts simples
+           
+
+
+
+
+
+
+
+
+
+
+
+
+// Ejercicio 7 : Stock
+
+Ejercicio 7. Especifique un tipo abstracto de datos Stock que permita las siguientes funcionalidades:
+Registrar un nuevo producto con su stock mınimo (un natural).
+Permitir que sea informado un producto sustituto para otro (ambos deben ya estar registrados). 
+El sustituto se utilizara para completar ventas si el stock del producto original no fuera suficiente 
+(eventualmente sustituyendolo por completo). 
+Cada producto tiene a lo sumo un sustituto y a su vez es a lo sumo substituto de otro producto.
+No hay transitividad en la sustitucion
+(si c es substituto de b y b lo es de a, nunca c cubrira un faltante de a en una venta).
+Registrar las ventas realizadas de un producto con su respectiva cantidad por venta, 
+sabiendo que la cantidad jamas puede exceder a la suma del stock disponible del producto y su sustituto.
+Registrar las compras de un producto, indicando la cantidad de elementos comprados.
+Devolver el conjunto de todos los productos con stock debajo del mınimo que no tengan sustituto,
+o bien tales que el total del stock del producto mas el de su sustituto este por debajo del mınimo
+
+proc nuevoLocal(): Stock
+proc registrarProd(inout s: Stock, in p: Producto, in cantmin: int)
+proc registrarSust(inout s: Stock, in p1: Producto, in p2: Producto)
+proc registrarVenta(inout s: Stock, in prod: Producto, in cant: int)
+proc registrarCompra(inout s: Stock,in prod: Producto, in cant: int)
+proc verProdsAgotados(in s:Stock, out res: Conj<Producto>)
+
+
+ TAD Stock{
+    obs productos  : conj<Producto> // Ver si esto hace falta
+    obs stockDisp  : dict<Producto, int> // Ver si esto hace falta
+    obs stockMin   : dict<Producto, int>  // Considero esto como la cant minima que tiene que haber en el local
+    obs sustitutos : dict<Producto,Producto>
+    obs cantVentas : dict<Producto, int>
+    obs cantCompras: dict<Producto, int>
+
+    proc nuevoLocal(): Stock
+        requiere {}
+        asegura { res.productos == {} }
+        asegura { res.stockDisp == {} }
+        asegura { res.stockMin == {} }
+        asegura { res.sustitutos == {} }
+        asegura { res.cantVentas == {} }
+        asegura { res.cantCompras == {} }
+
+    
+    proc registrarProd(inout s: Stock, in p: Producto, in cantmin: int)
+        requiere { cantmin >= 1}
+        asegura { s.productos == old(s).productos + {p} }
+        asegura { s.stockDisp == old(s).stockDisp }
+        asegura { s.stockMin == setKey(old(s).stockMin), p, cantmin) }
+        asegura { s.sustitutos == old(s).sustitutos }
+        asegura { s.cantVentas == old(s).cantVentas }
+        asegura { s.cantCompras == old(s).cantCompras }
+
+
+     proc registrarSust(inout s: Stock, in p1: Producto, in p2: Producto)
+        requiere { (p1 in s.productos) && (p2 in s.productos)}
+        requiere { !(p1 in s.sustitutos) }   // p1 no tiene sustitutos
+        requiere { forall p':producto :: p' in s.sustitutos =>L s[p'] != p2} // p2 no es sustituto de ningun producto
+        asegura { s.productos == old(s).productos }
+        asegura { s.stockDisp == old(s).stockDisp }
+        asegura { s.stockMin == old(s).stockMin }
+        asegura { s.sustitutos == setKey(old(s).sustitutos, p1, p2) }
+        asegura { s.cantVentas == old(s).cantVentas }
+        asegura { s.cantCompras == old(s).cantCompras }
+
+    // podria llegar hacer un proc reemplazarSustituto
+
+     proc registrarVenta(inout s: Stock, in prod: Producto, in cant: int)
+        requiere { prod in s.productos }
+        requiere { if (prod in s.sustitutos) then (cant <= (s.stockDisp[prod] + s.stockDisp[s.sustitutos[prod]])
+                    else (cant <= (s.stockDisp[prod]) }   // Ver si puedo usar if then else en el requiere
+        asegura { s.productos == old(s).productos }
+        asegura { s.stockDisp == setKey(old(s).stockDisp, p, old(s).stockDisp[prod] - cant } // Decremento el stock disponible? Y si fue cubierto con el sustituto porque cant del original no alcanzaba?
+        asegura { s.stockMin == old(s).stockMin }
+        asegura { s.sustitutos == old(s).sustitutos }
+        asegura { s.cantVentas == setKey(old(s).cantVentas, prod, old(s).cantVentas + cant) }
+        asegura { s.cantCompras == old(s).cantCompras }
+
+   
+    proc registrarCompra(inout s: Stock,in prod: Producto, in cant: int){
+        requiere { prod in s.productos }
+        asegura { s.productos == old(s).productos } 
+        asegura { s.stockDisp == setKey(old(s).cantCompras, prod, old(s).cantCompras + cant) }
+        asegura { s.stockMin == old(s).stockMin }
+        asegura { s.sustitutos == setKey(old(s).sustitutos, p1, p2) }
+        asegura { s.cantVentas == old(s).cantVentas }
+        asegura { s.cantCompras == setKey(old(s).cantCompras, prod, old(s).cantCompras + cant) }
+    
+    }
+
+
+    proc verProdsAgotados(in s:Stock, out res: Conj<Producto>){
+        requiere{}
+        asegura { forall p:prod :: p in s.stockDisp && !(p in s.sustitutos) =>L (if (s.stockDisp[p] < s.stockMin) then (p in res) else fi)  }
+        asegura { forall p1:prod:: p in s.StockDisp &&  (p in s.sustitutos) =>L (if ((s.stockDisp[p1] + s.stockDisp[s.sustitutos[p]]) < s.stockMin) then (p in res) else fi )  }   
+
+    }
+
+
+
+ }
+
+ // Ver si es correcto registrar todos los productos en un conjunto y usarlo como referencia siempre
