@@ -217,4 +217,7 @@ proc verProdsAgotados(in s:Stock, out res: Conj<Producto>)
 
  }
 
- // Ver si es correcto registrar todos los productos en un conjunto y usarlo como referencia siempre
+ // Ver si es correcto registrar todos los productos en un conjunto y usarlo como referencia siempre 
+
+
+
