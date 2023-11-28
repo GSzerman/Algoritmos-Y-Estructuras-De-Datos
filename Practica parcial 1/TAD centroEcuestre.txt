@@ -51,9 +51,9 @@ TAD centroEcu {
 
 }
 
-// Preguntas: Dice que quiere ver el mejor caballo de "cada raza". Eso significa que recibe la raza? 
+// Dudas: Dice que quiere ver el mejor caballo de "cada raza". Eso significa que recibe la raza? 
 // En general considero que cada proc hace referencia a un solo objeto?
 // Por ejemplo a un solo caballo? O puede pasar que me pidan devolver un dict<raza,caballo>
-// Lo mismo con verPuntosDeVigor . Muestro de todos los caballos o de un caballo especifico?
-// Es recomendable guardar todos los caballos en un conj<caballo>? Lo mismo con TAD Planta, guardar todas las plantas?
+// Lo mismo con verPuntosDeVigor . Muestro un dict con los puntos de vigor de todos los caballos o de un caballo especifico?
+// Es recomendable guardar todos los caballos en un conj<caballo>? Lo mismo con TAD Planta, guardar todas las especies de planta?
 // Se puede usar if y then como usé en competirCaballo ?
