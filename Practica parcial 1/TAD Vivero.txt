@@ -1,0 +1,49 @@
+obs especies: conj<especie>
+obs balance: int
+obs precioVenta: dict<especie, int>
+obs ultimoPrecioCompra: dict<especie, int>
+obs stock: dict<especie, int>
+
+
+proc nuevoVivero(in monto: int): Vivero
+    requiere { monto >= 0}
+    asegura { res.especies = {} }
+    asegura { res.balance = monto }
+    asegura { res.precioVenta = {} }
+    asegura { res.ultimoPrecioCompra = {} }
+    asegura { res.stock = {} }
+
+
+proc comprarPlanta(inout v:Vivero, in monto:int, in esp: especie, in cant:int)
+    requiere { v.balance >= cant * monto}
+    requiere { cant>0 && monto >0 }
+    asegura { v.especies = old(v).especies + {esp} }
+    asegura { v.balance = old(v).balance - cant * monto }
+    asegura { v.precioVenta = old(v).precioVenta }
+    asegura { v.ultimoPrecioCompra = setKey(old(v).ultimoPrecioCompra, esp, monto) }
+    asegura { v.stock = setKey(old(v).stock, esp, cant) }
+
+
+proc cambiarPrecioVenta(inout v:Vivero, in esp: especie, in pv: int)
+    requiere { esp in especies }
+    asegura { v.especies = old(v).especies }
+    asegura { v.balance = old(v).balance}
+    asegura { v.precioVenta = setKey(old(v).precioVenta, esp, pv) }
+    asegura { v.ultimoPrecioCompra = old(v).ultimoPrecioCompra }
+    asegura { v.stock = old(v).stock }
+
+
+proc venderPlanta(inout v:Vivero, in esp: especie)
+    requiere { esp in especies }
+    requiere { v.stock[esp] >= 1}
+    requiere { esp in v.precioVenta } // requiero haber fijado precioVenta
+    asegura { v.especies = old(v).especies }
+    asegura { v.balance = setKey(old(v).balance, esp, old(v).balance + v.precioVenta[esp]) }
+    asegura { v.precioVenta = old(v).precioVenta }
+    asegura { v.ultimoPrecioCompra = old(v).ultimoPrecioCompra }
+    asegura { v.stock = setKey(old(v).stock, esp, old(v).stock - 1) }
+
+
+proc verBalance(in v:Vivero, out res:int)
+    requiere {}
+    asegura { res = v.balance}
