@@ -20,19 +20,6 @@ a) Indique las operaciones (procs) del TAD con todos sus parámetros
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 proc nuevoCentro(): centroEcuestre
 proc comprarCaballo(inout c: centroEcuestre, in id: idCaballo, in r: raza, in v:vigor)
 proc entrenarCaballo(inout c: centroEcuestre, in id: idCaballo, in hs: horas)

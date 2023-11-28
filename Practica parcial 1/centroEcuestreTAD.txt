@@ -1,0 +1,59 @@
+caballo es int que representa el id del caballo, raza es string
+vigor y horas es int. gana es un bool (TRUE = Gano , FALSE = Perdio)
+
+
+TAD centroEcu {
+    obs caballos : conj<caballo>
+    obs razas: dict<caballo,raza>
+    obs puntos: dict<caballo,vigor>
+
+    proc nuevoCentro(): centroEcu
+        requiere {}
+        asegura { res.caballos == {} }
+        asegura { res.razas == {} }
+        asegura { res.puntos == {} }
+
+
+    proc comprarCaballo(inout c: centroEcu, in cab: caballo, in r: raza, in v:vigor)
+        requiere { v >= 0 }
+        requiere { !(cab in c.caballos) && !(cab in c.razas) && !(cab in c.puntos) }
+        asegura  { c.caballos == old(c).caballos + {cab} }
+        asegura  { c.razas == setKey(old(c).razas, cab ,r) }
+        asegura  { c.puntos == setKey(old(c).puntos, cab ,v) }
+
+
+    proc entrenarCaballo(inout c: centroEcu, in cab: caballo, in hs: horas)
+        requiere { cab in c.caballos }
+        asegura  { c.caballos == old(c).caballos }
+        asegura  { c.razas == old(c).razas }
+        asegura  { c.puntos = setKey(old(c).puntos, cab, old(c).puntos[cab] + hs) }
+
+
+    proc competirCaballo(inout c: centroEcu, in cab: caballo, in gana: bool)
+        requiere { cab in c.caballos }
+        asegura  { c.caballos == old(c).caballos }
+        asegura  { c.razas == old(c).razas}
+        asegura  { if (gana == TRUE) then 
+                    c.puntos == setKey(old(c).puntos , cab, old(c).puntos[cab] + 10) 
+                   else 
+                    c.puntos == setKey(old(c).puntos , cab, old(c).puntos[cab] - 10) }
+
+
+    proc verPuntos(in c: centroEcu, in cab:caballo, out res: int)
+        requiere { cab in c.caballos }
+        asegura  { res == c.puntos[cab]}   
+
+
+    proc verMejorDeRaza (in c: centroEcu, in r:raza, out res: caballo) 
+        requiere { exists cab:caballo :: c.razas[cab] = r}
+        asegura  { forall c1,c2 : caballo :: (c.razas[c1] == c.razas[c2] == r) =>L c.puntos[c1] >= c.puntos[c2] }
+        asegura  { res = c1 }
+
+}
+
+// Preguntas: Dice que quiere ver el mejor caballo de "cada raza". Eso significa que recibe la raza? 
+// En general considero que cada proc hace referencia a un solo objeto?
+// Por ejemplo a un solo caballo? O puede pasar que me pidan devolver un dict<raza,caballo>
+// Lo mismo con verPuntosDeVigor . Muestro de todos los caballos o de un caballo especifico?
+// Es recomendable guardar todos los caballos en un conj<caballo>? Lo mismo con TAD Planta, guardar todas las plantas?
+// Se puede usar if y then como usé en competirCaballo ?
