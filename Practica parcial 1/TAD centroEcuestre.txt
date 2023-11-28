@@ -45,7 +45,7 @@ TAD centroEcu {
 
 
     proc verMejorDeRaza (in c: centroEcu, in r:raza, out res: caballo) 
-        requiere { exists cab:caballo :: c.razas[cab] = r}
+        requiere { exists cab:caballo :: cab in c.caballos &&L c.razas[cab] = r}
         asegura  { forall c1,c2 : caballo :: (c.razas[c1] = c.razas[c2] = r) =>L c.puntos[c1] >= c.puntos[c2] }
         asegura  { res = c1 }
 
