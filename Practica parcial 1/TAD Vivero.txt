@@ -21,8 +21,8 @@ proc comprarPlanta(inout v:Vivero, in monto:int, in esp: especie, in cant:int)
     asegura { v.balance = old(v).balance - cant * monto }
     asegura { v.precioVenta = old(v).precioVenta }
     asegura { v.ultimoPrecioCompra = setKey(old(v).ultimoPrecioCompra, esp, monto) }
-    asegura { v.stock = setKey(old(v).stock, esp, cant) }
-
+    asegura {  (esp in v.especies) =>L v.stock = setKey(old(v).stock, esp, old(v).stock + cant) }
+    asegura { !(esp in v.especies) =>  v.stock = setKey(old(v).stock, esp, cant) }
 
 proc cambiarPrecioVenta(inout v:Vivero, in esp: especie, in pv: int)
     requiere { esp in especies }
@@ -38,7 +38,7 @@ proc venderPlanta(inout v:Vivero, in esp: especie)
     requiere { v.stock[esp] >= 1}
     requiere { esp in v.precioVenta } // requiero haber fijado precioVenta
     asegura { v.especies = old(v).especies }
-    asegura { v.balance = setKey(old(v).balance, esp, old(v).balance + v.precioVenta[esp]) }
+    asegura { v.balance = old(v).balance + v.precioVenta[esp] }
     asegura { v.precioVenta = old(v).precioVenta }
     asegura { v.ultimoPrecioCompra = old(v).ultimoPrecioCompra }
     asegura { v.stock = setKey(old(v).stock, esp, old(v).stock - 1) }
