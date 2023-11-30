@@ -1,6 +1,6 @@
 caballo es int que representa el id del caballo, raza es string
-vigor y horas es int. gana es un bool (TRUE = Gano , FALSE = Perdio)
-
+vigor y horas es int. gana es un bool (TRUE = Ganó , FALSE = Perdió)
+(SIEMPRE ACLARAR ESTO EN LOS TAD)
 
 TAD centroEcu {
     obs caballos : conj<caballo>
@@ -33,10 +33,8 @@ TAD centroEcu {
         requiere { cab in c.caballos }
         asegura  { c.caballos = old(c).caballos }
         asegura  { c.razas = old(c).razas}
-        asegura  { if (gana = TRUE) then 
-                    c.puntos = setKey(old(c).puntos , cab, old(c).puntos[cab] + 10) 
-                   else 
-                    c.puntos = setKey(old(c).puntos , cab, old(c).puntos[cab] - 10) }
+        asegura  { gana  => c.puntos = setKey(old(c).puntos , cab, old(c).puntos[cab] + 10) }
+        asegura  { !gana => c.puntos = setKey(old(c).puntos , cab, old(c).puntos[cab] - 10) }
 
 
     proc verPuntos(in c: centroEcu, in cab:caballo, out res: int)
@@ -46,14 +44,23 @@ TAD centroEcu {
 
     proc verMejorDeRaza (in c: centroEcu, in r:raza, out res: caballo) 
         requiere { exists cab:caballo :: cab in c.caballos &&L c.razas[cab] = r}
-        asegura  { forall c1,c2 : caballo :: (c.razas[c1] = c.razas[c2] = r) =>L c.puntos[c1] >= c.puntos[c2] }
-        asegura  { res = c1 }
+        asegura  { exists c1:caballo :: c1 in c.caballos &&L (forall c2:caballo :: 
+                     c2 in caballos &&L (c.razas[c1] = c.razas[c2] = r) =>L
+                    (c.puntos[c1] >= c.puntos[c2]) && res = c1)  }
+        
 
 }
 
-// Dudas: Dice que quiere ver el mejor caballo de "cada raza". Eso significa que recibe la raza? 
-// En general considero que cada proc hace referencia a un solo objeto?
+// Duda: Dice que quiere ver el mejor caballo de "cada raza". Eso significa que recibe la raza? . 
+// En general considero que cada proc hace referencia a un solo objeto? 
 // Por ejemplo a un solo caballo? O puede pasar que me pidan devolver un dict<raza,caballo>
 // Lo mismo con verPuntosDeVigor . Muestro un dict con los puntos de vigor de todos los caballos o de un caballo especifico?
-// Es recomendable guardar todos los caballos en un conj<caballo>? Lo mismo con TAD Planta, guardar todas las especies de planta?
-// Se puede usar if y then como usé en competirCaballo ?
+Respuesta: Si, siempre que se pueda, que el proc se refiera a un solo objeto, a menos que el enunciado pida explicitamente devolver un conjunto
+
+
+// Duda: Es recomendable guardar todos los caballos en un conj<caballo>? Lo mismo con TAD Planta, guardar todas las especies de planta?
+Respuesta: Es cómodo, pero no es imprescindible. Si en el constructor defino bien que las keys sean las mismas en todos los dict que corresponda, puedo elegir usar solo ese dict para ver que el caballo esté ahi dentro, y ahorrarme algunas lineas de código (Yo por comodidad seguiré usando ese conjunto)
+
+// Duda: Se puede usar if then como usé en competirCaballo ?
+Respuesta: No es recomendable. La forma correcta de usar if then else es que devuelva un valor y eso se hace medio complejo.
+Mejor usar dos asegura distintos, con un => cada uno como usé en competirCaballo
