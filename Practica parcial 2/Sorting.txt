@@ -1,0 +1,36 @@
+
+// Sorting
+
+Se puede crear estructuras Por ejemplo en el ej. del 2 parcial, se podia usar 
+un dictDigital que tenga adentro Dict de trie donde se guarda el stock, 
+se junta todo en un arreglo de triplas y se ordena con dos merge sort
+
+Saber como funciona en detalle (complejidad + estable + entender funcionamiento):
+
+- Heap
+- Bucket 
+- Counting
+
+
+
+Con saber la complejidad y si es estable alcanza:
+
+- Bubble
+- Merge
+- Insertion
+- Selection
+(El resto)
+
+
+
+- Radix (Casi no lo tomaron)
+- QuickSort (Directamente ni se vió. Puede que aparezca en algun final)
+
+(Busqueda binaria no hace falta. Es de algo 3)
+
+
+
+Si hacer guia de estructuras. vale la pena
+La guia de sorting no cambió nada. 
+Es la misma que antigua Algo 2. En cubaWiki probablemente esté resuelta.
+
