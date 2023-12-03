@@ -7,9 +7,9 @@ se junta todo en un arreglo de triplas y se ordena con dos merge sort
 
 Saber como funciona en detalle (complejidad + estable + entender funcionamiento):
 
-- Heap
-- Bucket 
-- Counting
+- Heap  (Muy buen video: https://www.youtube.com/watch?v=MtQL_ll5KhQ)
+- Bucket (Muy buen video: https://www.youtube.com/watch?v=GAU102t5n4U)
+- Counting (https://www.youtube.com/watch?v=x-Yo8zAy9Uw)
 
 
 
