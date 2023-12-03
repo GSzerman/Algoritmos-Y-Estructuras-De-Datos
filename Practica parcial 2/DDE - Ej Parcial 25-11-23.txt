@@ -63,7 +63,12 @@ Dudas pendientes:
 // pero en este caso cuando yo inserto una key que tiene como value un conjunto de x numeros int, sigue siendo O(1) el costo?
 
 
+// En que parte se usa memoria dinamica? Y new ? En el ejemplo del ej12 de guia 7 usan nuevo
+// cuando crean un dictLog 
 
+
+
+// En el campus están resueltos los ejercicios 12 y 11 + ejercicio de LU del simulacro de parcial
 
 
 
