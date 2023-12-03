@@ -19,11 +19,21 @@ L = cant de libros en la colección             ( |librosSocios| )
 
 
     proc PedirLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){  // Complejidad: O(log(r) + log(k) + log(L))
-            b.librosSocios.definir(s,l)              // O(1) porque |key| está acotado como max 50 ya que 50 es la longitud del nombre de un socio, osea de cada key
+            librosAnt := b.librosSocios.obtener(s) -- Ojo porque deberia traer los libros viejos y agregar al conjunto el libro nuevo, y ahi definir la key
+                                                   -- A menos que se pueda definir directamente sobre b.librosSocios[s]  . Es posible eso??
+            b.librosSocios[s].insertar(s,l)              // O(1) porque |key| está acotado como max 50 ya que 50 es la longitud del nombre de un socio, osea de cada key
             posLibro := b.posicionLibro.obtener(l)   // O(log(k))
             b.posicionLibro.borrar(l)                // O(log(n)) 
             b.posicionesLibres.agregar(pos)          // O(log(n))
     }
+
+    var productos: dictDigital<dni, conjLog<idProd>>
+
+    proc agregarAlCarrito(inout m: Mercado, in dni: int, in p: conj<idProd>{  /
+            m.productos.definir(dni,p)   // <- Que complejidad tiene?
+    }
+
+
 
 
     proc DevolverLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){
