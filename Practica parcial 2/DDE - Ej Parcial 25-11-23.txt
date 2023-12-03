@@ -1,0 +1,99 @@
+Modulo bibliotecaImpl implementa Biblioteca{
+    var posicionLibro: dictLog<idLibro,nat> // nat es la posicion
+    var librosSocios: dictDigital<socio, conjLog<idLibro>> // Acá cuando defino en el dictDigital. Estoy definiendo un conjLog también, o no? Esto me agrega el costo de insertar en un conjLog?
+    var posicionesLibres: minHeap<nat>
+
+La forma de asegurar que la información registrada es consistente sería que 
+todos los idLibro de posicionLibro no se encuentren los libros de ningun libroSocio[socio] y viceversa.
+También que no esté ninguna posición de posicionesLibres en las claves de posicionLibro y viceversa.
+
+k = cant de posiciones libres en la estanteria ( | minHeap | ) (cantidad de espacios libres que estan en el minHeap)
+r = cant de libros de un socio                 ( | conjLog<idLibro> | de librosSocios)
+L = cant de libros en la colección             ( |librosSocios| )
+
+    proc AgregarLibroAlCatalogo(inout b: Biblioteca, in l: idLibro){
+            min := b.posicionesLibres.buscarMinimo   // O(1)  
+            b.posicionesLibres.borrarMinimo          // O(log(k))     
+            b.posicionLibro.definir(l,min)           // O(log(L)) 
+    }
+
+
+    proc PedirLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){  // Complejidad: O(log(r) + log(k) + log(L))
+            b.librosSocios.definir(s,l)              // O(1) porque |key| está acotado como max 50 ya que 50 es la longitud del nombre de un socio, osea de cada key
+            posLibro := b.posicionLibro.obtener(l)   // O(log(k))
+            b.posicionLibro.borrar(l)                // O(log(n)) 
+            b.posicionesLibres.agregar(pos)          // O(log(n))
+    }
+
+
+    proc DevolverLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){
+         a:= b.posicionesLibres.buscarMinimo()      // O(1)
+         conj:= b.librosSocios.obtener(s)           // O(1)
+         conj.sacar(l)                              // O(log(r))
+         b.posicionesLibres.borrarMinimo            // O(log(k))
+         b.posicionLibro.definir(l,a)               // O(log(L)) 
+    }
+
+
+    proc Prestados (in b:Biblioteca, in s: Socio): Conjunto<idLibro>{
+        res = b.librosSocios.obtener(s)             // O(1) porque |key| está acotado como max 50 ya que 50 es la longitud del nombre de un socio, osea de cada key
+    }
+
+    proc UbicacionDeLibro(in b: Biblioteca, in l: idLibro): Posicion{
+        res = b.posicionLibro.obtener(l)            // O(log(L)) Porque L es la cantidad de keys del dict digital
+    }
+
+
+}
+
+
+
+Dudas pendientes:
+
+
+// Que es y como funciona el aliasing? Me faltan las aclaraciones sobre aliasing
+// Según lo que busqué el aliasing es, cuando dos punteros apuntan a la misma dirección de memoria,
+// lo cual puede generar errores inesperados. Supongo que si cuando inserto en alguna estructura, si inserto
+// por referencia a memoria en lugar de insertar por valor, cuando inserto en mas de una estructura se produce aliasing
+
+// En PedirLibro no estoy seguro como hacer para que me quede O(log(r) + log(k) + log(L))
+
+// Si yo tengo  var variable: dictDigital< int,  conjLog<int> >
+// se que el costo de insertar una key en un dictDigital común es O(1) en caso de que ese dict tenga un tamaño constante
+// pero en este caso cuando yo inserto una key que tiene como value un conjunto de x numeros int, sigue siendo O(1) el costo?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Cola de prioridad implementada sobre heaps
+
+public int size(); // Devuelve el largo de la cola  O(1)
+
+    public boolean vacia(); // Devuelve True si la cola esta vacia O(1) 
+    public void encolar(int elem); // Agrega un elemento al final de la cola O(log n)
+    public void desencolar(); // Remueve el elemento mas prioritario O(log n)
+    public int top(); // Devuelve el elemento mas prioritario O(1)
+    public colaDePrioridad heapify(int [] array); // array2heap O(n)
+
+
+
+crearVacío : O(1)
+próximo:  O(1)
+Desencolar: O(log n)
+Encolar: O(log n)
