@@ -3,12 +3,13 @@
 Tu:
 Chatgpt dame una frase motivadora para aprobar el parcial del martes 12 de diciembre de 2023
 
-¡Claro! Aquí tienes una frase motivadora:
 
 ChatGPT:
-"Con cada pregunta del parcial, estás un paso más cerca de demostrar todo lo que has aprendido. 
+¡Claro! Aquí tienes una frase motivadora:
+
+Con cada pregunta del parcial, estás un paso más cerca de demostrar todo lo que has aprendido. 
 Confía en tu preparación, respira profundo y recuerda que cada desafío es una oportunidad para brillar. 
-¡Tú tienes el conocimiento y la determinación para conquistar este parcial! A por ello el martes 12 de diciembre de 2023."
+¡Tú tienes el conocimiento y la determinación para conquistar este parcial! A por ello el martes 12 de diciembre de 2023.
 
 Tu:
 Gracias chat
