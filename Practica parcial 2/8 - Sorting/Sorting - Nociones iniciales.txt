@@ -10,7 +10,7 @@ Saber como funciona en detalle (complejidad + estable + entender funcionamiento)
 - Heap  (Muy buen video: https://www.youtube.com/watch?v=MtQL_ll5KhQ)
 - Bucket (Muy buen video: https://www.youtube.com/watch?v=GAU102t5n4U)
 - Counting (https://www.youtube.com/watch?v=x-Yo8zAy9Uw)
-
+  
 
 
 Con saber la complejidad y si es estable alcanza:
@@ -34,3 +34,9 @@ Si hacer guia de estructuras. vale la pena
 La guia de sorting no cambió nada. 
 Es la misma que antigua Algo 2. En cubaWiki probablemente esté resuelta.
 
+-- IMPORTANTE: Agregar al resumen BUCKET, Radix y Counting
+-- Anotarme el heapify usando el algoritmo de Floyd O(n)
+-- Convierte un arreglo en un heap
+
+En sorting se usa bastante bucket o heaps, o como el que
+tomaron que nos apoyamos en una estructura, generalmente dictTrie

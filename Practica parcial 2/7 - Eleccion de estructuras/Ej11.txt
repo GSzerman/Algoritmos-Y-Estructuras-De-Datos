@@ -1,0 +1,47 @@
+
+
+donde l es la longitud de una palabra
+|l| está acotada. Es constante.
+
+Palabra es string 
+
+modulo TextoImpl implementa Texto {
+    var palabras: Vector<Palabra>   // c
+    var posiciones: dictDigital<Palabra, conjLineal<int>>
+    var repeticionMaxima: int
+    var lasMasRepetidas: conjDigital<Palabra>
+
+
+
+
+    proc subtexto(in t:Texto, in desde: int, in hasta:int): Texto{
+        t.obtener()
+
+    }
+
+
+    proc cambiarPalabra(inout t: Texto, in vieja: Palabra, in nueva: Palabra) {
+        // O(k) donde k es la cant de veces que se repite la palabra
+
+        conj := t.posiciones.obtener(vieja)   // O(1)      Queda un conjLineal de tamaño k (que es la cant de indices donde aparece esa palabra)
+
+        for i in conj {                   // O(k) porque se repite k veces
+            t.palabras.definir(i,nueva)   // O(1) porque es escribir en un Vector
+        }
+
+    }
+
+
+    proc masRepetidas(in t: Texto): Conjunto<Palabra>{  // O(1) en el peor caso. Puede generar aliasing.
+        // palabras que mas se repiten. Puede generar aliasing (Puedo usar nros para hacer referencia al indice de un vector)
+
+    }
+
+
+}
+
+Describir la estructura a utilizar, documentando claramente como la misma resuelve el problema 
+y como cumple con los requerimientos de eficiencia. El diseño debe incluir solo la estructura de nivel superior. 
+Para justificar los ordenes de complejidad, describa las estructuras soporte. 
+Importante: si alguna de las estructuras utilizadas requiere que sus elementos posean una funcion especial 
+(por ejemplo, comparacion) debera describirla

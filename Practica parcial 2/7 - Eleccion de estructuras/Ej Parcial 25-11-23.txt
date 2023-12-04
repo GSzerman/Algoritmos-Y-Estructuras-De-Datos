@@ -27,11 +27,23 @@ L = cant de libros en la colección             ( |librosSocios| )
             b.posicionesLibres.agregar(pos)          // O(log(n))
     }
 
+
+
+
+
+
+
+
     var productos: dictDigital<dni, conjLog<idProd>>
 
     proc agregarAlCarrito(inout m: Mercado, in dni: int, in p: conj<idProd>{  /
             m.productos.definir(dni,p)   // <- Que complejidad tiene?
     }
+
+
+
+
+
 
 
 
