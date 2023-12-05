@@ -1,0 +1,59 @@
+R = [Brasil, Argentina, Alemania, Chile, Colombia, Francia]
+A = [Chile, Francia, Brasil, Chile, Argentina, Brasil]
+
+
+|R| = n
+|A| = m
+ 
+
+
+Quiero ordenar el arreglo A para que todos los elementos de A aparezcan el mismo orden que propone R 
+
+
+No necesito que el algoritmo a usar sea estable porque estoy ordenando una sola variable
+
+
+Elijo 
+
+Pais es string
+
+modulo rankingImpl implementa Ranking{
+
+    ranking : dictDigital<Pais, int>        // Este dict va a tener como clave el pais, y como valor la posición del ranking    
+    ordenA : vector<  tupla<Pais, int> >    // Este vector de tuplas va a tener cada pais la posicion que informa el ranking
+    
+
+
+    Ranking = dictVacio()   O(1)
+
+        for (i=0; i<|R|; i++){          // O(m)  como se ejecuta m veces, es O(m)
+            ranking.definir(R[i] , i)   // O(1) porque está acotado el dict y la longitud de la key Pais
+        }
+
+        for (j=0, j<|A|; i++){                          // O(n)  como se ejecuta n veces, es O(n)    
+            posRanking := ranking.obtener(A[j])         // O(1)  porque está acotado el dict y la longitud de la key Pais
+            ordenA.agregarAtras(<A[j] , posRanking>)    // O(1)  Agrego la tupla actual ¿Esto es O(1)?
+        } 
+
+
+        // Aplico countingSort sobre el vector ordenA , ordenado por posRanking.
+        // Como ordenA tiene tamaño n , ¿Esto cuesta O(n) en el peor caso? CHEQUEAR
+
+        // Por último, convierto el vector de tuplas en un vector simple, descartando
+        // el segundo elemento de cada tupla de ordenA, que ya no me hace falta (Solo queria devolver nombres de paises)
+        // Esto cuesta O(n) también
+
+
+        Costo total = O(m) + O(n) + O(n) + O(n) = O(m) + O(n) = O(m+n)
+
+
+
+
+
+}
+
+Chequear si esta resolución es correcta
+
+
+
+
