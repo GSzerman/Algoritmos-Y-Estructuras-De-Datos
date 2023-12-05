@@ -1,0 +1,19 @@
+Ejericicio parcial 08-07-22 sorting				
+				
+				
+Dividimos en 3 buckets . Uno entre 0 y L, otro entre L y H , y uno mayor o igual a H				
+				
+ Menores a L   |		                       | Mayores a H		
+				
+ Lo invierto   | Solo hay que ordenar esto	   | Esta ordenado	
+
+
+Para ordenar lo del medio uso cualquier algoritmo y me va a cumplir la cota			
+Si usara por ej Bubble que era O(n^2) me queda O(n) porque O(sqrt(n^2)) 			
+				
+O(n)	O(n)	nada		
+
+	
+Finalmente concatenamos todo, que cuesta O(n)				
+				
+O(n) + O(n) + O(n) = O(n)				
