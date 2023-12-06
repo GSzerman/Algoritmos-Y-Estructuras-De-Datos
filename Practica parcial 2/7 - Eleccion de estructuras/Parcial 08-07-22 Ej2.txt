@@ -26,11 +26,11 @@ modulo rankingImpl implementa Ranking{
 
     Ranking = dictVacio()   O(1)
 
-        for (i=0; i<|R|; i++){          // O(m)  como se ejecuta m veces, es O(m)
+        for (i=0; i<|R|; i++){          // O(n)  como se ejecuta m veces, es O(n)
             ranking.definir(R[i] , i)   // O(1) porque está acotado el dict y la longitud de la key Pais
         }
 
-        for (j=0, j<|A|; i++){                          // O(n)  como se ejecuta n veces, es O(n)    
+        for (j=0, j<|A|; i++){                          // O(m)  como se ejecuta n veces, es O(m)    
             posRanking := ranking.obtener(A[j])         // O(1)  porque está acotado el dict y la longitud de la key Pais
             ordenA.agregarAtras(<A[j] , posRanking>)    // O(1)  Agrego la tupla actual ¿Esto es O(1)?
         } 
@@ -44,7 +44,7 @@ modulo rankingImpl implementa Ranking{
         // Esto cuesta O(n) también
 
 
-        Costo total = O(m) + O(n) + O(n) + O(n) = O(m) + O(n) = O(m+n)
+        Costo total = O(n) + O(m) + O(n) + O(n) = O(m) + O(n) = O(m+n)
 
 
 
