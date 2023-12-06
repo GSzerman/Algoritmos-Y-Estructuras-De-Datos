@@ -124,3 +124,22 @@ crearVacío : O(1)
 próximo:  O(1)
 Desencolar: O(log n)
 Encolar: O(log n)
+
+
+
+
+
+*** Nota respecto al aliasing:
+
+Comentario de 'Damy'
+
+[21:20, 5/12/2023]  Los tipos primitivos como int no tiene aliasing.
+Pero los tipos complejos sip, entonces si tenes una variable interna ponele un heap 
+Y en procedimiento pones: return dichoHeap
+Te va a devolver ese heap pero habra aliasing, quizas es lo que queres, porqur queres que te devuelva en O(1)
+Para que no haya aliasing tendrias que poner:
+Res: Heap = new Heap(DichoHeap)
+Return res
+
+Eso haria una copia del heap y te lo devolveria (pero ya no seria O(1)
+[21:20, 5/12/2023]  Luego con los tipos primitivos si podes poner return VariableDeTipoPrimitivo y claramente no habria aliasing
