@@ -1,0 +1,17 @@
+casiSortImpl(Array arr){
+    var res = new Array() // 0(1)
+    while(arr.len > 1) //0(logn){
+        casiSort(arr) //0(n/2) = 0(n)
+        mitad := (arr.len / 2) + 1 
+        sorted_part = arr[...mitad]//0(n)
+        arr = arr[mitad...arr.len-1] //0(n)
+        if res.len > 0{
+            res = merge(res, sorted_part) // 0(n)
+        }
+        else{
+            res = sorted_part
+        }
+        
+    }
+  //0(n*logn)       
+}

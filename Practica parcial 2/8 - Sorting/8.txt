@@ -1,0 +1,30 @@
+
+
+proc ordenar(a, b: Array){
+    var cantRepes = new Array<Tuple<Int,Cant>>
+    int j := 0;
+    //si es igual al q sigue subo a la cantRepes y sino subo el indice q me va diciendo "cuantos elems distintos hay"
+    for(i:=0, i<a.length-1, i++) //O(n)
+        if a[i] == a[i+1]
+            cantDeRepes[j][1]++
+        else 
+            j++
+    //0(n)
+    mergeSortPorKey(cantDeRepes) // 0(n'log(n'))
+    int k = 0
+    for(i:=0, i<b.length-1, i++) //O(n)
+        if b[i] == cantDeRepes[k][0]:
+            cantDeRepes[k][1]++
+        else 
+            k++
+    //0(m)
+
+   
+}
+
+    auxA := new Array(a.length)
+    for(i:=0, i<cantDeRepes, i++) //O(n) porque al fin y al cabo revisara los n elementos de a
+        int k:=0
+        while(k<cantDeRepes[i][1])
+            auxA.agregarRapido(cantRepes[i][0])
+            k++

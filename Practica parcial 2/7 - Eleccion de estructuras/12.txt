@@ -1,0 +1,24 @@
+Modulo SuecoImpl implementa Sueco{
+    var boletosPorTiempoLog: DiccionarioLog<Tiempo,int>
+    var boletosPorTiempoLineal: DiccionarioLineal<Tiempo, int>
+
+
+    proc iniciarDia(inout s: SuecoImpl){
+        s.boletosPorTiempoLog = new DiccionarioLog(s)
+        s.boletosPorTiempoLineal = new DiccionarioLineal()
+    }
+    proc agregarBoleto(inout s: SuecoImpl, t){
+        if(t in s.boletos){
+            s.boletosPorTiempoLog.definir(t,s.boletosPorTiempoLog.obtener(t) + 1)
+            s.boletosPorTiempoLineal.definir(t, s.boletosPorTiempoLineal.obtener(t) + 1)
+        } else {
+            s.boletosPorTiempoLog.definir(t, 1)
+            s.boletosPorTiempoLineal.definir(t, 1)
+        }
+         // 0(n) + 0(logn)
+    } // 0(n)
+    
+    proc #Intervalo(in s: SuecoImpl, inicio: Tiempo, fin: Tiempo){
+        return s.boletosPorTiempoLog[inicio] - s.boletosPorTiempoLog[fin]
+    }
+}

@@ -1,0 +1,23 @@
+proc Recolectar(in s:Vector<tupla<string,int>>, in u:Diccionario<string,int>):Vector<string>{
+    var stockReservas: DictTrie<hierba, int>
+    var res: Vector<String>
+    stockReservas = DictTrieVacio()
+    for s in stock{
+        if(s[0] in stockReservas){
+            stockReservas.definir(s[0], stockReservas.obtener(s[0]) + s[1]) 
+        } else {
+            stockReservas.definir(s[0], s[1])
+        }
+        // 0(1)
+    } // 0(n)
+    
+    i = 0
+    while(i < stockReservas.tamaño):
+       res[i] = stockReservas[i]
+       i++ 
+    0(h)
+       
+    mergeSortByReservas(res) 0(hlogh)
+    mergeSortByUsos(res) 0(hlogh)
+
+}

@@ -1,0 +1,39 @@
+Modulo DiccionarioConHistoriaImpl implementa DiccionarioConHistoria {
+    var elems: DiccionarioLineal<K,V>
+    var cant: DiccionarioLineal<K,int>
+
+    proc nuevoDiccionario(out d: DiccionarioConHistoriaImpl)
+    {
+       d.elems := new DiccionarioLineal();
+       d.cant := new DiccionarioLineal();
+    } // 0(1)
+
+    proc esta(in d: DiccionarioConHistoriaImpl, in k: K) : bool
+    {
+       return d.elems.esta(k) // 0(n)
+    }
+
+    proc obtener(in d: DiccionarioConHistoriaImpl, in k: K): V
+    {
+        return d.elems.obtener(k) 
+    }
+
+    proc borrar(inout d: DiccionarioConHistoriaImpl, in k: K)
+    {
+        d.elems.borrar(k)
+    }
+
+    proc definir(inout d: DiccionarioConHistoriaImpl, in k: K): V
+    {
+        d.elems.definir(k,v) 
+        if(d.cant.esta(k)){
+            d.cant.definir(k,d.cant.obtener(k)+1)
+        }
+        else{
+            d.cant.definir(k,1)
+        }
+    }
+    proc cantSignificados(in d: DiccionarioConHistoriaImpl, in k: K): int    {
+        return d.cant.obtener(k)
+    }
+}

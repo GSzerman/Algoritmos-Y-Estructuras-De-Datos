@@ -1,0 +1,28 @@
+var avl: DiccionarioTrie<int, cant>
+//arr = [1,2,5,2,1,5,5] avl = {1:2, 2:2, 5:3}
+//res = [1,1,2,2,5,5,5]
+avlSort(array arr) : array{
+  var avl = nuevo DiccionarioTrie()
+  for elem in arr{
+       if(avl.esta(elem)){
+        avl.definir(elem, 1)
+       }
+       else{
+        avl.definir(elem, avl.obtener(elem) + 1)
+       }
+  } // 0(n*log(d))
+  
+  while(avl.tamaño() > 0){
+    var minimo = avl.minimo() // 0(logd)
+    
+    while(i < avl.obtener(minimo)){
+        res.agregarAdelante(minimo)
+        } // 0(n)
+    avl.sacar(minimo) // 0(logd)
+  }//
+  
+
+
+
+       
+}

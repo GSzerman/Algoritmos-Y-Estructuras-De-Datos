@@ -1,0 +1,27 @@
+modulo bibliotecaImpl implementa biblioteca{
+    var catalogo: DictLog<idLibro, int>
+    var posLibres: minHeap<int>
+    var sociosLibros: DictTrie<Socio, conjLog<libro>>
+    proc AgregarLibroAlCatalogo(inout b: Biblioteca, in l: idLibro){
+      catalogo.definir(idlibro, posLibres.obtenerMinimo()) //0(log L)
+      posLibres.sacarMinimo() // 0(log k)
+    }
+
+    proc PedirLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){
+        catalogo.borrar(l) // 0(log L)
+        posLibres.agregar(catalogo.obtener(l)) // 0(log L) + 0(log k)
+        var socioLibro = sociosLibros.obtener(s) // 0(1)
+        socioLibro.agregar(l) // 0(log r)
+        sociosLibros.definir(s, socioLibro) // 0(1)
+    }
+
+    proc DevolverLibro(inout b: Biblioteca, in l: idLibro, in s: Socio){
+        var librosPrestados = sociosLibros.obtener(s) // 0(1)
+        return librosPrestados
+    }
+
+    proc UbicacionDeLibro(in b: Biblioteca, in l: idLibro): Posicion{
+        catalogo.obtener(l) // 0(log L)
+    }
+
+}

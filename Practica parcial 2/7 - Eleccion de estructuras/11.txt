@@ -1,0 +1,70 @@
+Modulo TextoImpl implementa Texto {
+    
+    var palabras: Vector<Palabra>
+    var masRepetida: int
+    var palabrasMasRepetidas: ConjuntoDigital<Palabra>
+    var indicesPalabra: DiccionarioDigital<Palabra,ConjuntoDigital<Int>>
+    var indice: int
+
+    proc nuevoTexto(inout t: TextoImpl){
+        t.palabras = new Vector()
+        t.masRepetida = 0
+        t.palabraMasRepetida = new ConjuntoDigital()
+        t.indicesPalabra = new DiccionarioDigital()
+        t.indice = 0
+    }
+
+    proc agregarPalabra(inout t: TextoImpl, p: Palabra){
+        var indice = t.indice
+        t.palabras.agregarAdelante(p)
+        var indices = new ConjuntoDigital()
+        indices.agregar(indice)
+        if(t.indicesPalabra.esta(p)){
+            t.indicesPalabra.obtener(p).agregar(indice)
+        } else {
+            t.indicesPalabra.definir(p, indices)
+        }
+        
+       
+
+
+        if(t.masRepetida < t.indicesPalabra[p].tamaño){
+            t.masRepetida = t.indicesPalabra[p].tamaño
+            var palabraMasRepetida = new ConjuntoDigital<Palabra>
+            palabraMasRepetida.agregar(p)
+            t.palabrasMasRepetidas := palabraMasRepetida.copy()
+        }
+
+        if(t.masRepetida == t.indicesPalabra[p].tamaño){
+            t.palabrasMasRepetidas.agregar(p)
+        }
+        
+        
+    }
+
+    proc posiciones(in t: TextoImpl, in p: Palabra){
+        return indicesPalabra.obtener(p)
+    }
+
+    proc subtexto(in t: TextoImpl, in desde: int, in hasta: int){
+        var subtxt := new ConjuntoDigital()
+        i := desde
+        while(i <= hasta){
+            subtxt.agregar(t.palabras[i])
+            i := i + 1
+        }
+        return subtxt
+    }
+
+    proc cambiarPalabra(inout t: TextoImpl, in vieja: Palabra, in nueva: Palabra){
+        var indices = t.palabrasIndices[vieja]
+        for i in indices:
+            t.palabras[i] = nueva
+        
+    }
+
+    proc masRepetidas(in t: TextoImpl){
+        return t.palabrasMasRepetidas
+    }
+
+}

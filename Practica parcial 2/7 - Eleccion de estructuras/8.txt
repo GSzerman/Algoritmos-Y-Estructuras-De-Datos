@@ -1,0 +1,24 @@
+Nodo<T> es struct<
+izq: Nodo,
+der: Nodo,
+dato: T
+>
+
+
+Modulo ConjuntoNaturales<Nat> implementa Conjunto<Nat>{
+    var elems: ListaEnlazada<Nat>
+
+    proc agregar(inout c: ConjuntoNaturales, in e: Nat){
+        Nodo<Nat> nue := new Nodo(n); //asi construyo el nodo
+        
+        if(n < c.elems.primero){
+            c.agregarAdelante(nue); //automaticamente ya hace el enganche con los sig??
+        } 
+        else if(n > c.elems.ultimo){
+            c.agregarAtras(nue);
+        } 
+        else{
+            agregarOrdenado(c,nue); //O(n)
+        }
+    }
+}

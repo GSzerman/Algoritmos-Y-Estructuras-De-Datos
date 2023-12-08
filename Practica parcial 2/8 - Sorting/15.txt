@@ -1,0 +1,11 @@
+proc tieneAgujero?(in A: array<nat>): bool{
+    maximo = buscarMaximo(A) //0(n)
+    countingSort(A, maximo) //0(n)
+    for i in range(len(A)){ //0(n)
+        diff = A[i] - A[i + 1]
+        if(diff > 1){
+            return True
+        }
+    }
+    return False
+}

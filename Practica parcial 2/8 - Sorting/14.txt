@@ -1,0 +1,18 @@
+proc ordernarMultiplos(in A: array<nat>, in k: nat) : array<nat>
+{
+    res := arrayVacio()
+    heap := heapVacio()
+    for e in A:
+       heap.agregar(e)
+    j := 2
+    while(!heap.vacio()){ // 0(nk)
+        minimo = heap.quitarMinimo() // 0(logn)
+        res.agregar(minimo)
+        if(j <= k){
+            heap.agregar(minimo*j)
+            j++
+        } else {
+            j = 2
+        }
+    } 
+}
