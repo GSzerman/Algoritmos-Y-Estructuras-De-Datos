@@ -1,0 +1,21 @@
+ordenarK(A: array<int>) : array<int>{
+
+    
+
+    var i = 0;
+    var j = 0;
+    for(int i = 0; i < k; i++){
+        minheap.agregar(A[i])
+    }
+    while(i < n){
+        
+    res[i] = minheap.desencolar()
+    if(k+j<n){
+        minHeap.agregar(A[k + j])
+    j++;
+    }
+    
+    i++;
+    }
+    
+}

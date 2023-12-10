@@ -1,7 +1,9 @@
 proc Recolectar(in s:Vector<tupla<string,int>>, in u:Diccionario<string,int>):Vector<string>{
     var stockReservas: DictTrie<hierba, int>
-    var res: Vector<String>
-    stockReservas = DictTrieVacio()
+    var triplesHerbs: Vector<Triple<hierba,usos,reservas>>
+    var usosHierbas: Vector<Tupla<hierbas,int>>
+    var res: Vector<string>
+    stockReservas = DictTrieVacio() // 0(1)
     for s in stock{
         if(s[0] in stockReservas){
             stockReservas.definir(s[0], stockReservas.obtener(s[0]) + s[1]) 
@@ -12,12 +14,16 @@ proc Recolectar(in s:Vector<tupla<string,int>>, in u:Diccionario<string,int>):Ve
     } // 0(n)
     
     i = 0
-    while(i < stockReservas.tamaño):
-       res[i] = stockReservas[i]
-       i++ 
-    0(h)
+
+    for u in usos{
+        triplesHerbs.agregar(Triple<u, usos[u], stockReservas[u]>)
+    } //0(h)
        
     mergeSortByReservas(res) 0(hlogh)
     mergeSortByUsos(res) 0(hlogh)
 
-}
+    while(i < triplesHerbs.tamaño){
+        res[i] = triplesHerbs[i][0]
+    } // 0(h)
+    return res
+} // 0(1 + n + h + hlogh + h) = 0(1 + n + 2h + hlogh) = 0(n + hlogh)

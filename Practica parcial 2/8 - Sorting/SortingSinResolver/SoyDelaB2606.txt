@@ -1,0 +1,22 @@
+Ej. 1. Sorting
+Ante la terrible crisis sanitaria que estamos viviendo, los hospitales est´an pidiendo ayuda. Tienen una lista
+con los pacientes, donde se incluye el apellido, nombre y un n´umero real que representa la gravedad de su
+estado, en ese orden. La gravedad va del 1.0 al 10.0, donde 10.0 representa el caso m´as grave posible. La
+lista est´a ordenada de menor a mayor por apellido, pero necesitan ordenarla seg´un la gravedad del caso, de
+forma de ir atendiendo a aquellas personas con mayor riesgo de vida.
+a. Como la lista es muy larga y la necesitan con urgencia, nos piden ordenarla en O(n), considerando que
+como m´aximo n/ log(n) pacientes tienen valores de gravedad con m´as de dos decimales. Nos piden,
+adem´as, que el ordenamiento sea estable. Describir en detalle el algoritmo a utilizar y las estructuras
+adicionales necesarias, si las hubiese. Justificar la complejidad y la estabilidad de la soluci´on, y mostrar
+que efectivamente resuelve el problema.
+b. ¿Qu´e pasa si nos piden que para dos personas con la misma gravedad aparezca primero en la lista
+ordenada la de mayor apellido, invirtiendo el orden original? ¿Qu´e y c´omo cambiar´ıa el algoritmo
+propuesto? Justificar.
+c. Teniendo en cuenta que luego de haber ordenado la lista seg´un la gravedad de cada paciente la lista
+mantiene su orden relativo seg´un el apellido del paciente, ¿c´omo podr´ıamos volver al orden anterior
+seg´un el apellido en O(n)? Justificar.
+Algunas observaciones:
+Puede suponerse que se cuenta con una funci´on TieneDosDecimales(num) que indica en O(1) si un
+n´umero tiene dos cifras decimales significativas o menos.
+Puede suponerse que, s´olo para este problema, comparar dos reales tiene costo O(1)
+

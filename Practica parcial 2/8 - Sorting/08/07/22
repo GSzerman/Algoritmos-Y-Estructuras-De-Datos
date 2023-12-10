@@ -1,0 +1,19 @@
+ej1
+
+sorting(array arr)
+  var arrL = Vector<int>
+  var arrH = Vector<int>
+  var arrLH = Vector<int>
+  for a in arr{
+    if(a < L){
+        arrL.agregar(a)
+    }
+    if(H < a){
+        arrH.agregar(a)
+    }
+    if(L < a < H){
+        arrLH.agregar(a)
+    }
+   insertionSort(arrL)
+   return arr L + arr LH + arrH
+  }

@@ -1,0 +1,32 @@
+A = [{1, 2, 3}, {1, 2}, {1, 3}, {1, 2, 4}]
+B = [{1, 3}, {1, 2}, {1, 2, 3}, {1, 2, 4}]
+
+K = 3
+
+var buckets: array<array<int>>
+
+while(i<A.tamaño){ // 0(n)
+ k = A[i].tamaño - 1 //  0(k)
+ buckets[k].agregar(A[i])
+ // 0(k)
+}  // 0(nk)
+
+var res: array<array<int>>
+
+var buckets: array<array<int>>
+
+buckets = [[{1,2},{1,4}], [{1,2,3},{1,2,5}]]
+
+k maximo tamaño de arrays
+n buckets
+
+while(i<buckets.tamaño){ 
+    while(j<buckets[i].tamaño) // 0(n){ 
+        res.agregar(buckets[i][j]) //0(k)
+    }
+    
+} //0(n*k)
+
+
+
+res = [{1,2},{1,4},{1,2,3},{1,2,5}]

@@ -1,0 +1,16 @@
+Ej. 1. Sorting
+Cada a˜no Pap´a Noel recibe cartas de los ni˜nos y las ni˜nas en las cuales le piden una lista de regalos que les gustar´ıa
+recibir. De forma de agilizar la entregas, el equipo de Pap´a Noel quiere ordenar los pedidos primero por zona horaria,
+de menor a mayor, y luego por cantidad de juguetes pedidos, de mayor a menor, de forma de ir entregando en horario,
+y liberando la mayor cantidad de regalos posible.
+Las zonas horarias se representan como n´umeros de 1 a z, siendo 1 la zona en la que primero se hace Navidad y
+z la ´ultima. Adem´as, se sabe que siempre se da la siguiente particularidad: del total de n ni˜nos y ni˜nas que escriben
+en todo el mundo, por cada zona horaria hay como mucho mil ni˜nos y ni˜nas que piden m´as de 3n juguetes cada uno,
+mientras que todos los dem´as ni˜nos y ni˜nas piden a lo sumo 3n juguetes cada uno.
+Pap´a Noel nos pidi´o que lo ayudemos con esta tarea, para lo que necesitamos un algoritmo para la funci´on
+OrdenEntregas, que dada la cantidad de zonas horarias y un arreglo de tuplas de naturales, tales que cada una
+representa la zona horaria y la cantidad de juguetes que pidi´o cada ni˜no o ni˜na, devuelva el arreglo ordenado de la
+forma antes indicada.
+OrdenEntregas(in z : nat, in pedidos : arreglo(tupla(nat,nat))) → res : arreglo(tupla(nat,nat))
+As´ı, se nos pide que este algoritmo tenga una cota de complejidad O(z + long(pedidos)).
+Escribir el pseudoc´odigo del algoritmo, justificar detalladamente que este resuelve el problema planteado y demostrar formalmente que cumple con la complejidad solicitada.

@@ -1,0 +1,14 @@
+pacientes2decimales = []
+pacientesmasdecimales = []
+
+for i in pacientes{
+    if !esEntero(pacientes[i][2] * 100){
+        pacientes2decimales.agregar(pacientes)
+    }
+    pacientesmasdecimales.agregar(pacientes)
+} // 0(n)
+
+radixSortByThirdComponent(pacientes2decimales) //0(3*n) = 0(n)
+heapSortByThirdComponent(pacientesmasdecimales) // 0(m*logn), m = n/logn ==> 0(m*logn) = 0(n) 
+
+res = pacientes2decimales + pacientesmasdecimales //0(n)
