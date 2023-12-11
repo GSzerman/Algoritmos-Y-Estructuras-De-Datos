@@ -1,0 +1,39 @@
+// Ejercicio Texto
+
+
+Como cantRepeticiones es O(1) , necesito tener esa info guardada previamente en alguna estructura.
+Como |palabra| está acotado, genero 
+
+dictTrie<palabra,cantRepeticiones>
+
+Como la secuencia de palabras necesita un orden, tengo que usar un vector
+
+Vector<Palabra>
+
+como cambiarPalabra es O(k), es k veces O(1)
+
+dictTrie<Palabra,conjLineal<posicion>> // AgregarRapido en un conjLineal es O(1)
+
+
+
+para subtexto tengo que crear un nuevo Texto
+texto := nuevoVector() //O(1)
+
+hago un for que vaya de 'desde' a 'hasta'
+agregando cada posición de i , al vector nuevo (Buscar en vector cuesta O(1))
+
+
+------
+
+Ejercicio LU
+
+dictLog<materia,
+---
+
+
+sorting competencia:
+extiendo la tupla agregando la posicion en R //O(n), para que desempate por posiciones
+para que se mantenga estable cuando haga el heapify
+heapifico O(n), queda el max puntaje, min cant intentos , min apariciones
+
+en el head del heap está (nombre,max_puntaje,min_cant_intentos,min_posicion_en_r)

@@ -1,0 +1,57 @@
+E3. Sorting
+
+Se quiere obtener los resultados de una competencia de escalada. 
+Así, el resultado de cada competidor se registrará como una 
+tupla(nombre: string, puntos: nat, intentos: nat), 
+donde nombre es el nombre del competidor, puntos es la cantidad de puntos acumulados 
+e intentos es la cantidad de veces que el competidor intentó escalar una ruta. 
+El puntaje obtenido variará según la competencia, por lo que no existe un máximo establecido, 
+y cada competidor puede realizar la cantidad de intentos que quiera. 
+
+Se requiere crear un algoritmo para hacer un ranking de los competidores:
+
+TablaKPosiciones(in a: secuencia(tupla(nombre:string, puntos:nat, intentos:nat)), in k: nat): secuencia(string)
+
+Por ejemplo, dada la siguiente entrada:
+
+R=[(Marcos, 25, 5), (Pedro, 50, 2), (Irene, 50, 2), (Lucas, 10, 10), (Juana, 25, 2)]
+
+TablaKPosiciones(R, 3) = [Pedro, Irene, Juana]
+
+Esto es porque al solicitar el ranking de tres (3) posiciones Pedro e Irene quedan primeros
+ ya que tienen el mayor puntaje. Después vienen Marcos y Juana, que tienen el mismo puntaje, 
+ pero Juana tiene menos intentos y queda antes, y Marcos se queda fuera.
+
+Se pide escribir un algoritmo que tome el arreglo de resultados de una competencia de escalada, 
+de tamaño n, y arme la tabla de posiciones con el top k de los mejores competidores TablaDeKPosiciones.
+La tabla de posiciones es una lista donde los competidores aparecen ordenados decrecientemente según
+el puntaje obtenido. En caso de empate, se desempata según la cantidad de intentos realizados
+de forma creciente. El algoritmo debe ser estable y tener complejidad O(n + k log(n)) de peor caso, 
+lo que debe estar justificado en forma detallada.
+
+---------------------------------------------
+Comienzo con la secuencia R=[(Marcos, 25, 5), (Pedro, 50, 2), (Irene, 50, 2), (Lucas, 10, 10), (Juana, 25, 2)]
+que tiene n tuplas
+
+1_ Tomo la secuencia de entrada que es de tamaño n, y la amplío agregandole un cuarto elemento que es el orden
+// O(n)
+
+2_ Ahora tengo el vector de tuplas de 4 elementos. Creo un vector vacio llamado res de tamaño k // O(k)
+
+3_Aplico heapsort k veces, tomando en cada pasada el mayor puntaje, la menor cant de intentos 
+y la menor posicion (hice que se vuelva estable en el paso anterior).
+
+En cada vuelta 
+    aplico heapify // O(n)
+    obtengo el maximo segun mi criterio // O(1)
+    lo elimino del heap // O(log n)
+    ingreso el nombre de esa tupla al indice correspondiente del vector res
+    El primer elemento obtenido va a la posicion 0, el segundo a la posicion 1 y asi hasta k-1
+
+// k * O(n + log(n)) = k * O(log (n))
+
+4_ Devuelvo res 
+
+Costo total : O(n + k + k* log(n)) = O(n + k* log(n))
+
+

@@ -2,6 +2,21 @@ R = [Brasil, Argentina, Alemania, Chile, Colombia, Francia]
 A = [Chile, Francia, Brasil, Chile, Argentina, Brasil]
 
 
+Opcion alternativa: /*
+
+cantApariciones : dictDigital<Pais, cant> 
+recorro R agregando el pais al vector res y decrementando la cant hasta que cant=0
+
+
+new res : vector  // tamaño m
+
+
+for i=0; i<|R| ; i++{
+    cantApariciones.obtener(R[i])
+}
+
+*/
+
 |R| = n
 |A| = m
  
@@ -13,15 +28,13 @@ Quiero ordenar el arreglo A para que todos los elementos de A aparezcan el mismo
 No necesito que el algoritmo a usar sea estable porque estoy ordenando una sola variable
 
 
-Elijo 
-
 Pais es string
 
 modulo rankingImpl implementa Ranking{
 
     ranking : dictDigital<Pais, int>        // Este dict va a tener como clave el pais, y como valor la posición del ranking    
     ordenA : vector<  tupla<Pais, int> >    // Este vector de tuplas va a tener cada pais la posicion que informa el ranking
-    
+   
 
 
     Ranking = dictVacio()   O(1)
@@ -32,19 +45,22 @@ modulo rankingImpl implementa Ranking{
 
         for (j=0, j<|A|; i++){                          // O(m)  como se ejecuta n veces, es O(m)    
             posRanking := ranking.obtener(A[j])         // O(1)  porque está acotado el dict y la longitud de la key Pais
-            ordenA.agregarAtras(<A[j] , posRanking>)    // O(1)  Agrego la tupla actual ¿Esto es O(1)?
+            ordenA.agregarAtras(<A[j] , posRanking>)    // O(1)  Agrego la tupla actual. Lo supongo amortizado y es O(1). Amortizado vale para sorting pero no para estructuras
         } 
 
+        new vec: vector
 
-        // Aplico countingSort sobre el vector ordenA , ordenado por posRanking.
-        // Como ordenA tiene tamaño n , ¿Esto cuesta O(n) en el peor caso? CHEQUEAR
+
+
+
+        // Aplico countingSort sobre el vector ordenA , ordenado por posRanking. Esto tiene complejidad O(m+n)
 
         // Por último, convierto el vector de tuplas en un vector simple, descartando
         // el segundo elemento de cada tupla de ordenA, que ya no me hace falta (Solo queria devolver nombres de paises)
-        // Esto cuesta O(n) también
+        // Esto cuesta O(m) también
 
 
-        Costo total = O(n) + O(m) + O(n) + O(n) = O(m) + O(n) = O(m+n)
+        Costo total = O(n) + O(m) + O(n+m) + O(m) = O(m+n)
 
 
 
@@ -53,7 +69,6 @@ modulo rankingImpl implementa Ranking{
 }
 
 Chequear si esta resolución es correcta
-
 
 
 

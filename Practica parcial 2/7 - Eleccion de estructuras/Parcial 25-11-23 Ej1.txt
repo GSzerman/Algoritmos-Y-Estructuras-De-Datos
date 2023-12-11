@@ -78,7 +78,11 @@ Dudas pendientes:
 // lo cual puede generar errores inesperados. Supongo que si cuando inserto en alguna estructura, si inserto
 // por referencia a memoria en lugar de insertar por valor, cuando inserto en mas de una estructura se produce aliasing
 
+
+
 // En PedirLibro no estoy seguro como hacer para que me quede O(log(r) + log(k) + log(L))
+
+
 
 // Si yo tengo  var variable: dictDigital< int,  conjLog<int> >
 // se que el costo de insertar una key en un dictDigital común es O(1) en caso de que ese dict tenga un tamaño constante

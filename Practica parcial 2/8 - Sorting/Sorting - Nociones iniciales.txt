@@ -22,21 +22,43 @@ Con saber la complejidad y si es estable alcanza:
 (El resto)
 
 
-
-- Radix (Casi no lo tomaron)
 - QuickSort (Directamente ni se vió. Puede que aparezca en algun final)
 
 (Busqueda binaria no hace falta. Es de algo 3)
 
 
+-----------
 
-Si hacer guia de estructuras. vale la pena
-La guia de sorting no cambió nada. 
-Es la misma que antigua Algo 2. En cubaWiki probablemente esté resuelta.
 
--- IMPORTANTE: Agregar al resumen BUCKET, Radix y Counting
--- Anotarme el heapify usando el algoritmo de Floyd O(n)
--- Convierte un arreglo en un heap
+SORTING:
+    1_Armar una estructura( en gral dictTrie), un vector de tuplas y 
+    ordenar ese vector de tuplas de alguna forma estable (una palabra acotada)
+    
+    2_un Heapsort donde tengo que garantizar la estabilidad si la piden (Tipo competencia) (O(n logn))
+    
+    3_Usar buckets, como por ejemplo el de lo del medio es sqrt(n)   
+            (O(n+b) + O(n)) por ordenar y mergear, cuando b está acotado, y eso me da O(n). Cuando pida O(n) pienso bucket
+            Todo el algoritmo de bucket queda ordenado finalmente en O(n)
+            Esta complejidad es la complejidad del bucketsort como tal, no tiene
+            dentro ni merge ni ningun algoritmo diferente, sino que bucketsort es un algoritmo aparte
 
-En sorting se usa bastante bucket o heaps, o como el que
-tomaron que nos apoyamos en una estructura, generalmente dictTrie
+
+
+
+
+    Por ejemplo si tengo 100 valores entre 1 y 1000 , importa que la cota maxima es 1000.
+    No importa si vienen mas de 100 valores
+
+    En bucket se suele usar arreglo de arreglos
+    Un arreglo de dos arreglos (de dos bucket) (O(n)) 
+    Como es de de mayor a menor, pongo en el primer arreglo las tuplas los que en cantJuguetes son mayores a 3n
+    y en el segundo arreglo los que en cantJuguetes son menores o iguales a 3n
+
+    El primer arreglo se puede ordenar con cualquiera estable, en este caso bubble sirve
+    porque n es como maximo 1000 y n^2 = 1Millon => sigue estando acotado y queda O(1)
+    El segundo arreglo, no tenemos un maximo constante, pero sabemos que es como max 3n,
+    entonces podemos aplicar bucketsort, que es O(n). Mergeo los dos arreglos que queda O(n)
+    Ya tengo ordenado por cantidad de juguetes pedidos, me queda ordenar por zona horaria las tuplas,
+    de menor a mayor. Como se que la zona horaria está acotada por z, hago otro bucketsort comun,
+    que queda O(n + z), porque z es la maxima zona horaria que viene como parametro de entrada
+

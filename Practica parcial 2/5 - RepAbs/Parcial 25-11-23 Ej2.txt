@@ -1,0 +1,166 @@
+obs ventasPorProducto	
+prod1:	[ (01-01-23, 50),(02-01-23, 100) ]
+prod2:	[ (03-01-23, 40),(02-01-23, 200) ]
+prod3:	[ (01-01-23, 30),(02-01-23, 900) ]
+		
+	
+var ventas	
+[ (prod1, 01-01-23, 50), (prod1, 02-01-23, 100), (prod2, 03-01-23, 40),(prod2, 02-01-23, 200), (prod3, 01-01-23, 30),(prod3, 02-01-23, 900) ]	
+ 	
+	
+var totalPorProducto	
+prod1:	150
+prod2:	240
+prod3:	930
+	
+var ultimoPrecio	
+prod1:	100
+prod2:	40
+prod3:	900
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Llamaré TTP a totalPorProducto, UP a ultimoProducto, VPP a ventasPorProducto , prod a un producto
+
+InvRep
+
+1) Fechas >0 , montos>0 y no hay fechas repetidas en ventas
+2) Si un prod. aparece en ventas está definido en TTP , y la vuelta también
+3) UP y TPP tienen las mismas claves
+4) Para cada prod de TPP tengo la suma de todas las ventas registradas para ese prod
+5) Para cada prod de UP tengo el monto de la ultima fecha registrada en ventas (Fecha mas grande)
+
+ FuncAbs 
+(Considero el invRep como válido, 
+entonces solo lo asoció el obs VPP con la var ventas)
+
+
+
+6) Para cada producto 'prod' que esté en tad.VPP,  
+   para todas sus tuplas (fecha,cant) tiene que existir
+   en impl.ventas la tripla (prod,fecha,cant)
+
+   &
+
+   Para cada tripla (prod,fecha,cant) de tad.ventas,
+   debe existir la key prod en tad.VPP, y 
+   debe existir la tupla (fecha,cant) en impl.VPP[prod]
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Modulo ComercioImpl implementa Comercio { 
+var ventas: Secuencia<tupla<Producto, Fecha, Monto>> 
+var totalPorProducto: Diccionario<Producto, Monto> 
+var ultimoPrecio: Diccionario<Producto, Monto> }
+
+
+1) Fechas >0 , montos>0 y no hay fechas repetidas en ventas
+
+  (forall i:Z) :: (0<= i < |c.ventas| ->L ( (c.ventas[i][1] >= 0) && (c.ventas[i][2] >= 0) ))
+  &&
+  (forall j,k) :: (0<=j,k <|c.ventas| && j!= k ->L  c.ventas[j][1] != c.ventas[k][1] )
+
+
+2) Si un prod. aparece en ventas está definido en TTP , y la vuelta también
+
+(forall i: int :: 0<= i < |c.ventas| ->L c.ventas[i][0] in c.TPP ) 
+&
+(forall k: Producto) :: (k in c.TPP ->L (exists t: tupla(producto,fecha,monto) :: t in c.ventas &&L t[0]=k))
+
+3) UP y TPP tienen las mismas claves
+
+forall k:producto :: k in c.UP <=> k in c.TPP
+
+4) Para cada prod de TPP tengo la suma de todas las ventas registradas para ese prod
+
+forall k:producto :: k in c.TPP =>L (c.TPP[k] = (sum (from j=0 to |c.ventas|-1) if k == c.ventas[j] then c.ventas[j][2] else 0 fi)
+
+5) Para cada prod de UP tengo el monto de la ultima fecha registrada en ventas (Fecha mas grande)
+
+forall k:producto :: k in c.UP ->L  esFechaMaxDeProd( k, c.UP[k])
+
+pred esFechaMaxDeProd(k: producto, f:fecha){
+  forall i,j:int :: ( 0<= i,j <|c.ventas| && (i!=j) && (c.ventas[i][0] = k && c.ventas[j][0] = k) ->L 
+                                                       (c.ventas[i][1] >= c.ventas[j][1]) && c.ventas[i][1] = f))  
+}
+
+
+-- predAbs
+
+6) Para cada producto 'prod' que esté en tad.VPP,  
+   para todas sus tuplas (fecha,cant) tiene que existir
+   en impl.ventas la tripla (prod,fecha,cant)
+
+   &&
+
+   Para cada tripla (prod,fecha,cant) de tad.ventas,
+   debe existir la key prod en tad.VPP, y 
+   debe existir la tupla (fecha,cant) en impl.VPP[prod]
+
+
+forall p:producto :: p in tad.VPP ->L (forall i:int :: 0<=i<|tad.VPP[p]| ->L
+       exists j:int :: 0<=j<|ventas| &&L 
+                                       (ventas[j][0] = p 
+                                     && ventas[j][1] = tad.VPP[p][i][0]
+                                     && ventas[j][2] = tad.VPP[p][i][1]))
+&&
+
+forall y:int :: 0<=y<|impl.ventas| ->L (exists p:producto :: (p in tad.VPP && impl.ventas[y][0]=p) &&L
+ exists z: int :: 0<= z < |tad.VPP[p]| &&L 
+                                           tad.VPP[p][z][0] = impl.ventas[y][1]
+                                        && tad.VPP[p][z][1] = impl.ventas[y][2])
+) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+forall p:prod :: p in tad.VPP ->L (forall i:int :: 0 <= i < |tad.VPP[p]| ->L 
+                                        (exists z:tupla<prod,fecha,cant> :: z in impl.ventas 
+                                            &&L (z[0] = p && z[1] = tad.vpp[0t[0] && z[2] = t[1] ) )
+
+(exists t:tupla<prod,fecha,cant> :: t in impl.ventas 
+                                    &&L (t[0] = p && t[1] = tad.VPP[p][]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+proc Recolectar (in s:vector, in u:diccionario): vector
+    1) Creo un diccDigital de hierbas a cantidad. Como lo creo vacío cuesta O(1)
+    2) Recorro s (O(n)) y para cada tupla veo si la hierba está definida.
+        Si no está, la defino con esa cantidad, caso contrario le sumo la cantidad,
+        caso contrario le sumo la cantidad actual al significado.
+        Como el dicc es trie, obtener y definir es O(1)
+
+     dd = { "dl":15 , "menta": 4, "Margarita":19, "lav": 12 } 
+
+     3) Recorro un array de h posiciones, siendo h el tamaño del dicc. Cuesta O(h)
+     ...
